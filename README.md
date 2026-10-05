@@ -9,6 +9,34 @@ and ships as `ghcr.io/captf-io/aws-cluster`. The network is yours: the
 module creates the API endpoint, the security groups, the node identities
 and a bootstrap bucket inside a VPC and subnets that already exist.
 
+## Usage
+
+CAPTF runs this module from the module image `ghcr.io/captf-io/aws-cluster`: set the image on
+a `TerraformCluster`'s `spec.source.image`, and the controller renders every
+input. The module is also published to the Terraform Registry as
+`captf-io/cluster/aws` and can be called directly:
+
+```hcl
+module "cluster" {
+  source  = "captf-io/cluster/aws"
+  version = "~> 0.1"
+
+  # The contract inputs the controller would render (captf_contract,
+  # captf_cluster, captf_object, captf_tags, ...; see Inputs), and any
+  # user variables.
+}
+```
+
+Called directly, the module is a CAPTF root module first:
+
+- it configures its own `provider "aws"` block, so the calling
+  module cannot use `count`, `for_each` or `depends_on` on it, and the
+  provider takes its credentials from the environment (see Identity
+  Secret);
+- its providers are pinned to exact versions (`versions.tf`), which the
+  calling configuration has to accept;
+- you set the `captf_*` inputs yourself.
+
 ## What it creates
 
 | Resource | Count | Purpose |
@@ -60,7 +88,7 @@ read: their role ARNs are inputs.
   counts against the rules-per-group quota), two IAM roles and instance
   profiles, one S3 bucket.
 - **Identity permissions.** The identity creates and deletes the resources
-  above: [`examples/identity-policy.json`](examples/identity-policy.json)
+  above: [`examples/identity-policy.json`](https://github.com/captf-io/terraform-aws-cluster/blob/main/examples/identity-policy.json)
   covers all three roles. It needs `iam:CreateRole` and friends on
   `role/captf/*` and `instance-profile/captf/*`, unless the node identities
   are brought.
@@ -173,7 +201,7 @@ stringData:
 
 `HOME` is `/captf/work` in the Job, so `~/.aws` never exists. IRSA and Pod
 Identity do not apply: the Job mounts no projected service account token.
-See [`examples/identity.yaml`](examples/identity.yaml).
+See [`examples/identity.yaml`](https://github.com/captf-io/terraform-aws-cluster/blob/main/examples/identity.yaml).
 
 ## Tags
 
@@ -240,7 +268,7 @@ None: `tfcapi-lint module --strict` passes without allowed warnings.
 
 ## Examples
 
-[`examples/cluster-kubeadm.yaml`](examples/cluster-kubeadm.yaml) creates
+[`examples/cluster-kubeadm.yaml`](https://github.com/captf-io/terraform-aws-cluster/blob/main/examples/cluster-kubeadm.yaml) creates
 a TerraformCluster with:
 
 ```yaml
