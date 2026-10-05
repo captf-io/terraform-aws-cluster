@@ -1,19 +1,50 @@
-# terraform-aws-cluster
+<h1 align="center">
+  <a href="https://captf.io/"><img
+    src="https://captf.io/assets/readme/mark.svg"
+    width="72" height="72" alt="CAPTF"></a>
+  <br>
+  terraform-aws-cluster
+</h1>
 
-The CAPTF AWS cluster module: the Terraform/OpenTofu root module behind `TerraformCluster`. The images are published from [aws-modules](https://github.com/captf-io/aws-modules) as `ghcr.io/captf-io/aws-cluster`; this repository holds the module code only.
+<p align="center">The CAPTF cluster module for Amazon Web Services</p>
 
-The `cluster` role for AWS: what every machine and pool of one cluster
-shares. It implements the `v1alpha1`
-[cluster role](https://captf.io/docs/module-author/contract/v1alpha1/cluster.html)
-and ships as `ghcr.io/captf-io/aws-cluster`. The network is yours: the
-module creates the API endpoint, the security groups, the node identities
-and a bootstrap bucket inside a VPC and subnets that already exist.
+<p align="center">
+  <a href="https://github.com/captf-io/terraform-aws-cluster/actions/workflows/ci.yml"><img
+    src="https://img.shields.io/github/actions/workflow/status/captf-io/terraform-aws-cluster/ci.yml?branch=main&amp;label=build&amp;labelColor=161B3A&amp;style=flat-square"
+    alt="build"></a>
+  <a href="https://captf.io/docs/module-author/contract/index.html"><img
+    src="https://img.shields.io/static/v1?label=contract&amp;message=v1alpha1&amp;color=A974FF&amp;labelColor=161B3A&amp;style=flat-square"
+    alt="contract v1alpha1"></a>
+  <a href="https://captf.io/docs/"><img
+    src="https://img.shields.io/static/v1?label=docs&amp;message=captf.io&amp;color=5B8CFF&amp;labelColor=161B3A&amp;style=flat-square"
+    alt="docs captf.io"></a>
+  <a href="https://github.com/captf-io/terraform-aws-cluster/blob/main/LICENSE.md"><img
+    src="https://img.shields.io/static/v1?label=license&amp;message=Apache-2.0&amp;color=FFD84D&amp;labelColor=161B3A&amp;style=flat-square"
+    alt="license Apache-2.0"></a>
+</p>
 
-## Usage
+> [!NOTE]
+> **Pre-release.** CAPTF is `v1alpha1`: its API and its
+> [module contract](https://captf.io/docs/module-author/contract/index.html)
+> may still change between releases.
 
-CAPTF runs this module from the module image `ghcr.io/captf-io/aws-cluster`: set the image on
-a `TerraformCluster`'s `spec.source.image`, and the controller renders every
-input. The module is also published to the Terraform Registry as
+The CAPTF AWS cluster module is the Terraform/OpenTofu root module behind
+`TerraformCluster`. It is the `cluster` role for AWS: what every machine and
+pool of one cluster shares. It implements the `v1alpha1`
+[cluster role](https://captf.io/docs/module-author/contract/v1alpha1/cluster.html).
+The images are built from
+[aws-modules](https://github.com/captf-io/aws-modules) and published as
+`ghcr.io/captf-io/aws-cluster`; this repository holds the module code only.
+
+The network is yours: the module creates the API endpoint, the security
+groups, the node identities and a bootstrap bucket inside a VPC and subnets
+that already exist.
+
+## Using it
+
+CAPTF runs this module from the module image `ghcr.io/captf-io/aws-cluster`: set
+the image on a `TerraformCluster`'s `spec.source.image`, and the controller
+renders every input. The module is also published to the Terraform Registry as
 `captf-io/cluster/aws` and can be called directly:
 
 ```hcl
@@ -284,7 +315,7 @@ spec:
       us-east-1c: subnet-0ccc0000000000003
 ```
 
-## Development
+## Developing
 
 The host needs `make`, `podman` (or `docker` with `ENGINE=docker`), `jq` and
 Go; every other tool runs in a digest-pinned container. `make verify` is the
@@ -308,3 +339,29 @@ gate. `tfcapi-lint` is built from `../cluster-api-provider-terraform`
 | `make clean` | Remove `build/`. |
 
 `RUNTIMES=opentofu` limits a run to one runtime.
+
+<br>
+<p align="center">
+  <img
+    src="https://captf.io/assets/readme/divider.svg"
+    width="100%" height="4" alt="">
+</p>
+<p align="center">
+  <a href="https://captf.io/"><img
+    src="https://captf.io/assets/readme/mark.svg"
+    width="40" height="40" alt="CAPTF"></a>
+  <br>
+  <a href="https://captf.io/docs/"
+    ><b>Documentation</b></a> ·
+  <a href="https://captf.io/docs/getting-started/quick-start.html"
+    ><b>Quick start</b></a> ·
+  <a href="https://github.com/captf-io/.github/blob/main/CONTRIBUTING.md"
+    ><b>Contributing</b></a> ·
+  <a href="https://github.com/captf-io/.github/blob/main/SECURITY.md"
+    ><b>Security</b></a>
+  <br>
+  <sub>Built for
+    <a href="https://cluster-api.sigs.k8s.io/">Cluster API</a>.
+    <a href="https://github.com/captf-io/terraform-aws-cluster/blob/main/LICENSE.md"
+    >Apache 2.0</a>.</sub>
+</p>
