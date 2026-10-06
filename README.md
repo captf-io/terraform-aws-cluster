@@ -32,9 +32,9 @@ The CAPTF AWS cluster module is the Terraform/OpenTofu root module behind
 `TerraformCluster`. It is the `cluster` role for AWS: what every machine and
 pool of one cluster shares. It implements the `v1alpha1`
 [cluster role](https://captf.io/docs/module-author/contract/v1alpha1/cluster.html).
-The images are built from
-[aws-modules](https://github.com/captf-io/aws-modules) and published as
-`ghcr.io/captf-io/aws-cluster`; this repository holds the module code only.
+The images are built by
+[module-images](https://github.com/captf-io/module-images) from this repository's releases and published as
+`ghcr.io/captf-io/module-images/aws-cluster`; this repository holds the module code only.
 
 The network is yours: the module creates the API endpoint, the security
 groups, the node identities and a bootstrap bucket inside a VPC and subnets
@@ -42,7 +42,7 @@ that already exist.
 
 ## Using it
 
-CAPTF runs this module from the module image `ghcr.io/captf-io/aws-cluster`: set
+CAPTF runs this module from the module image `ghcr.io/captf-io/module-images/aws-cluster`: set
 the image on a `TerraformCluster`'s `spec.source.image`, and the controller
 renders every input. The module is also published to the Terraform Registry as
 `captf-io/cluster/aws` and can be called directly:
@@ -305,7 +305,7 @@ a TerraformCluster with:
 ```yaml
 spec:
   source:
-    image: ghcr.io/captf-io/aws-cluster:v0.1.0-opentofu
+    image: ghcr.io/captf-io/module-images/aws-cluster:v0.1.0-opentofu
   variables:
     region: us-east-1
     vpc_id: vpc-0123456789abcdef0
