@@ -137,6 +137,16 @@ run "invalid_api_allowed_cidrs" {
   expect_failures = [var.api_allowed_cidrs]
 }
 
+run "invalid_api_allowed_cidrs_world_open" {
+  command = plan
+
+  variables {
+    api_allowed_cidrs = ["192.0.2.0/24", "0.0.0.0/0"]
+  }
+
+  expect_failures = [var.api_allowed_cidrs]
+}
+
 run "invalid_api_load_balancer_subnets" {
   command = plan
 

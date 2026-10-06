@@ -60,6 +60,11 @@ variable "api_allowed_cidrs" {
     condition     = alltrue([for c in var.api_allowed_cidrs : try(can(cidrnetmask(c)) && cidrsubnet(c, 0, 0) == c, false)])
     error_message = "api_allowed_cidrs must hold IPv4 network addresses in CIDR notation, such as 192.0.2.0/24 (not a host address such as 192.0.2.1/24)."
   }
+
+  validation {
+    condition     = alltrue([for c in var.api_allowed_cidrs : try(tonumber(split("/", c)[1]) > 0, true)])
+    error_message = "api_allowed_cidrs must not hold a /0 prefix such as 0.0.0.0/0: it would open the API endpoint to the whole internet. List the networks that need access and the nodes' public egress addresses instead, or leave the list empty to keep an internal load balancer to the VPC's primary CIDR."
+  }
 }
 
 variable "api_load_balancer_public" {

@@ -147,7 +147,7 @@ TerraformCluster:
 | Variable | Type | Default | Description |
 | --- | --- | --- | --- |
 | `additional_tags` | `map(string)` | `{}` | Extra tags for every taggable resource; at most 40, no `aws:`, `captf.io/` or `kubernetes.io/cluster/` keys. |
-| `api_allowed_cidrs` | `list(string)` | `[]` | IPv4 networks allowed to reach the API besides the nodes. Empty: the VPC's primary CIDR for an internal load balancer. Required for an internet-facing one, and must then include the nodes' public egress addresses (the NAT gateways' Elastic IPs as `/32`s). |
+| `api_allowed_cidrs` | `list(string)` | `[]` | IPv4 networks allowed to reach the API besides the nodes. Empty: the VPC's primary CIDR for an internal load balancer. Required for an internet-facing one, and must then include the nodes' public egress addresses (the NAT gateways' Elastic IPs as `/32`s). A `/0` is rejected. |
 | `api_load_balancer_public` | `bool` | `false` | Make the API load balancer internet-facing. |
 | `api_load_balancer_subnets` | `map(string)` | `{}` | Availability zone to subnet ID for the API load balancer; empty means the node subnets. It must cover every zone of `subnets`, and is required (public subnets) for an internet-facing one. Subnets present at creation can never be removed. |
 | `control_plane_instance_profile` | `object({name, role_arn})` | `null` | An existing instance profile for control-plane nodes, with its role's ARN, instead of creating one. |
